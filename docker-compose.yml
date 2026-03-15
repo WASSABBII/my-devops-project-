@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  my-app:
+    build: ./app
+    depends_on:
+      - my-db
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  my-db:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+ 
+volumes:
+  redis_data:
