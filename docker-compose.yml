@@ -8,8 +8,8 @@ services:
     restart: always
     environment:
       - PYTHONUNBUFFERED=1
-      - DB_PASSWORD=supersecret
-
+      - DB_PASSWORD=${MY_PASSWORD}
+      
   my-db:
     image: redis:alpine
     restart: always
