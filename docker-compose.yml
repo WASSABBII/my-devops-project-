@@ -1,17 +1,18 @@
 version: '3.8'
 
 services:
-  my-app:
+  my-job:
     build: ./app
     depends_on:
       - my-db
+    restart: always
     environment:
       - PYTHONUNBUFFERED=1
+      - DB_PASSWORD=supersecret
 
   my-db:
     image: redis:alpine
-    ports:
-      - "6379:6379"
+    restart: always
     volumes:
       - redis_data:/data
  
