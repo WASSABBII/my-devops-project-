@@ -4,6 +4,6 @@ FROM python:3.10-slim
  		
    COPY . . 
 
-RUN pip install requests redis 
+RUN pip install requests redis fastapi uvicorn  
 
- 	 CMD ["python","parser.py"] 
+  CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"] 

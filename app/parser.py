@@ -1,17 +1,28 @@
-import time
+from fastapi import FastAPI
 import redis
 import os
-print("Проверка авто-деплоя")
-print("Алмас далбан") 
-print(f"DEBUG: Мой секретный пароль из переменной: {os.getenv('DB_PASSWORD')}")
-print("Пробую подключиться к Redis...")
-# 'my-db' — это имя сервиса из твоего docker-compose.yml
-r = redis.Redis(host='my-db', port=6379)
 
-while True:
+app = FastAPI()
+
+# Railway сам подставит правильный URL базы в переменную REDIS_URL
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
+r = redis.from_url(REDIS_URL)
+
+@app.get("/")
+def read_root():
+    return {"message": "Привет! Это мой проект в облаке Railway!"}
+
+@app.get("/status")
+def get_status():
     try:
         r.ping()
-        print("Успех! База данных Redis доступна.")
+        return {"status": "Redis доступен ✅"}
     except Exception as e:
-        print(f"Ошибка: Не могу достучаться до базы: {e}")
-    time.sleep(5) 
+        return {"status": "Ошибка базы ❌", "details": str(e)}
+
+@app.get("/test-data")
+def test_data():
+    # Записываем тестовое значение и тут же его читаем
+    r.set("last_visit", "now")
+    val = r.get("last_visit")
+    return {"redis_data": val}  
