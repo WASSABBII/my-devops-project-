@@ -1,6 +1,7 @@
 import time
 import redis
 import os
+print("Проверка авто-деплоя") 
 print(f"DEBUG: Мой секретный пароль из переменной: {os.getenv('DB_PASSWORD')}")
 print("Пробую подключиться к Redis...")
 # 'my-db' — это имя сервиса из твоего docker-compose.yml
