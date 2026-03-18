@@ -1,9 +1,18 @@
+# 1. ОСНОВА: Берем Python. slim — значит легкий, без мусора.
 FROM python:3.10-slim 
 
-  WORKDIR /app 
- 		
-   COPY . . 
+# 2. ПАПКА: Создаем внутри контейнера рабочую директорию.
+# Все команды ниже будут выполняться ТУТ.
+WORKDIR /app 
 
-RUN pip install requests redis fastapi uvicorn  
+# 3. КОПИРОВАНИЕ: Точка слева — это ТВОЙ комп (папка app, где ты сделал ls).
+# Точка справа — это ПАПКА ВНУТРИ контейнера (/app).
+COPY . . 
 
-  CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"] 
+# 4. БИБЛИОТЕКИ: Устанавливаем всё, что нужно для работы.
+# Без uvicorn и fastapi сервер не заведется.
+RUN pip install redis fastapi uvicorn requests
+
+# 5. ЗАПУСК: Вот тут была ошибка!
+# Мы говорим uvicorn: "Запусти объект 'app', который лежит в файле 'main.py'".
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]  
