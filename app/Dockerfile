@@ -15,4 +15,4 @@ RUN pip install redis fastapi uvicorn requests
 
 # 5. ЗАПУСК: Вот тут была ошибка!
 # Мы говорим uvicorn: "Запусти объект 'app', который лежит в файле 'main.py'".
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]  
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]  
